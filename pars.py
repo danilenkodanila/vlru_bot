@@ -14,4 +14,3 @@ s = ""
 for element in page:
     s = s + element.html()
 s = s.replace("<title>","").replace("</title>","")
-
