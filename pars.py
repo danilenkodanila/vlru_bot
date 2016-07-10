@@ -1,4 +1,4 @@
-from grab import Grab
+from grab import Grab #импортируем граб для работы с парсингом
 
 url = 'https://www.yandex.ru/'
 xpath = '//div[@id="tabnews_newsc"]'
