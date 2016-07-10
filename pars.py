@@ -8,14 +8,10 @@ xpath = '//title'
 
 g = Grab()
 g.go(url)
-
-
 page = g.doc.select(xpath)
 
 s = ""
 for element in page:
     s = s + element.html()
+s = s.replace("<title>","").replace("</title>","")
 
-s = s + "хуй"
-
-s.replace("хуй", "")
