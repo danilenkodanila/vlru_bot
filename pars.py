@@ -10,7 +10,7 @@ g = Grab()
 g.go(url)
 page = g.doc.select(xpath)
 
-s = ""
+mainString = ""
 for element in page:
-    s = s + element.html()
-s = s.replace("<title>","").replace("</title>","")
+    mainString = mainString + element.html()
+mainString = mainString.replace("<title>","").replace("</title>","")
