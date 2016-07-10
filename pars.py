@@ -16,10 +16,10 @@ page = g.doc.select(xpath)
 mainString = ""
 count = -2
 
-for element in page:
+for element in page: #цикл считывающий элементы
 	count = count + 1
 	if count > 0:
-		mainString = mainString + str(count) + ") " + element.html()
+		mainString = mainString + str(count) + ") " + element.html() #формирование номера новости
 
 
-mainString = mainString.replace("<title>","").replace("</title>","").replace("  ","")
+mainString = mainString.replace("<title>","").replace("</title>","").replace("  ","") #обрезаем говно
