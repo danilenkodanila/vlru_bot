@@ -16,4 +16,6 @@ s = ""
 for element in page:
     s = s + element.html()
 
-s.replace("<title>", "")
+s = s + "хуй"
+
+s.replace("хуй", "")
