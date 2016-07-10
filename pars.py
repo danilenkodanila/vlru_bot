@@ -1,7 +1,7 @@
 from grab import Grab #импортируем граб для работы с парсингом
 
-url = 'https://www.yandex.ru/'
-xpath = '//div[@id="tabnews_newsc"]'
+url = 'https://news.yandex.ru/index.rss'
+xpath = '//description'
 
 g = Grab()
 g.go(url)
