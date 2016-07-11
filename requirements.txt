@@ -1,0 +1,18 @@
+$ ls
+Procfile  requirements.txt  web.py
+
+$ heroku create --buildpack heroku/python
+
+$ git push heroku master
+...
+-----> Python app detected
+-----> Installing python-2.7.12
+     $ pip install -r requirements.txt
+       Collecting requests (from -r requirements.txt (line 1))
+         Downloading requests-2.10.0-py2.py3-none-any.whl (501kB)
+       Installing collected packages: requests
+       Successfully installed requests-2.10.0
+
+-----> Discovering process types
+       Procfile declares types -> (none)
+
