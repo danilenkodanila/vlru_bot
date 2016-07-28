@@ -65,9 +65,10 @@ url2 = s[2]
 
 #все переменные без приставки "1" нужны для считывания тайтлов
 g2 = Grab()
-g2.go(s[2])
+g2.go(url)
 
-#g2.search(u'яндекс')
+g2.search(u'яндекс'.encode('utf-8'), byte=True)
+
 #print(s)
 
 
