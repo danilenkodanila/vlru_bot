@@ -47,7 +47,7 @@ for element in s:
 
 g2 = Grab()
 g2.go("https://news.yandex.ru/yandsearch?cl4url=izvestia.ru%2Fnews%2F624707&lr=75&rpt=story")
-page2 = g2.xpath_text('//a[@class="link link_theme_normal i-bem link_js_inited"]')
+page2 = g2.doc.select('//a[@class="link link_theme_normal i-bem link_js_inited"]')
 
 for element in page2: #цикл считывающий линки
 	 print(element.html()) # list.append — добавляет элемент в конец списка
