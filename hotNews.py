@@ -1,6 +1,6 @@
 import re
 import sys
-from bs4 import 3
+from bs4 import BeautifulSoup
 from urllib.request import urlopen
 
 doc = 'http://www.newsvl.ru/'
@@ -34,7 +34,6 @@ finish.append('1) ' + '<a href="' + link[0] + '">' + title[0]+ '</a>' + '\n'+ '2
 print(finish)
 
 # finish.append('1) ' + '<a href="https://news.yandex.ru/yandsearch?cl4url=regnum.ru/news/society/2202110.html&lang=ru&from=main_portal&lr=75">Госорганы РФ не смогут требовать от граждан 85 видов справок</a>' + '\n'+ '2) ' + '<a href="https://news.yandex.ru/yandsearch?cl4url=www.kommersant.ru/doc/3135777&lang=ru&from=main_portal&lr=75">Украина предоставит коридор для российских войск в Приднестровье</a>' + '\n' + '3) ' + '<a href="https://news.yandex.ru/yandsearch?cl4url=www.rbc.ru/politics/07/11/2016/58205a429a79479cbd632f95&lang=ru&from=main_portal&lr=75">Саакашвили объявил об уходе в отставку</a>') 
-
 
 
 

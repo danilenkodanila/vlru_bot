@@ -6,6 +6,8 @@ import test
 import hotNews
 #import parsLink
 
+from telebot import types
+
 bot = telebot.TeleBot(config.token) #создаем бота
 answer = pars.mainString #это то, что будем посылать в ответ
 #lol = pars.stroka[1]
@@ -16,14 +18,16 @@ def repeat_all_messages(message): # Название функции не игр�
     bot.send_message(message.chat.id, answer, parse_mode='HTML') #посылаем в ответ 
     setNews = 1
 
-@bot.message_handler(commands=['hotnews', 'HotNews', 'hot']) 
+@bot.message_handler(commands=['hotnews', 'HotNews', 'hot', 'горячиеНовости']) 
 def repeat_all_messages(message): 
     bot.send_message(message.chat.id, hotNews.finish[0], parse_mode='HTML' )
 
+@bot.message_handler(commands=['numberofnewstext'])
+def repeat(message): 
+    bot.send_message(message.chat.id, "Чтобы я прислал вам текст новости из списка новостей отправте мне сообщение в таком формате: /1text, /14text") #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
 
 #обрабатываем команды 
-#пока не уверен, но вроде то, что внизу ДАЖЕ не говнокод, а норм обработчик команд
-if setNews == 0: #ВНИМАНИЕ, УСЛОВИЕ setNews == 1 ПОЧЕМУ-ТО НЕ РАБОТАЕТ (((((
+if setNews == 0: 
      @bot.message_handler(commands=['1'])
      def repeat(message): 
         bot.send_message(message.chat.id, pars.s[1]) #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
@@ -147,6 +151,7 @@ if setNews == 0: #ВНИМАНИЕ, УСЛОВИЕ setNews == 1 ПОЧЕМУ-Т�
      @bot.message_handler(commands=['20text'])
      def repeat(message): 
         bot.send_message(message.chat.id, test.funcText(20)) #посылаем в ответ 
-    
+
+  
 if __name__ == '__main__': #запускам бота
       bot.polling(none_stop=True)
