@@ -6,7 +6,7 @@ import sys
 #sys.setdefaultencoding('cp866') # устанавливаем кодировку вывода консоли
 from grab import Grab #импортируем граб для работы с парсингом
 
-url = 'https://news.yandex.ru/index.rss'
+url = 'http://www.newsvl.ru/rss'
 xpath = '//title'
 xpath1 = '//link'
 

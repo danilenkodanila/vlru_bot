@@ -1,0 +1,7 @@
+g2 = Grab()
+i = 1
+for element in s: 
+	print(s[i])
+	g2.go(s[i])
+	stroka[i] = g2.doc.select('//div[@class="story__text"]').text()
+	i += 1
