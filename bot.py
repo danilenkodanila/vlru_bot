@@ -16,6 +16,8 @@ answer = pars.mainString #это то, что будем посылать в о�
 #lol = pars.stroka[1]
 setNews = 0 #если посылали новости, то 1, если нет, то 0
 
+
+
 @bot.message_handler(commands=['news', 'новости', 'Новости', 'НОВОСТИ']) #реакция на КОМАНДЫ 
 def repeat_all_messages(message): # Название функции не играет никакой роли, в принципе
     keyboard = types.InlineKeyboardMarkup()
@@ -37,6 +39,15 @@ def repeat_all_messages(message):
     keyboard = types.InlineKeyboardMarkup()
     url_button = types.InlineKeyboardButton(text="Перейти на newsvl.ru", url="http://www.newsvl.ru/")
     keyboard.add(url_button)
+    try:
+        sendSpam.listUsers.pop(sendSpam.listUsers.index(message.chat.id))
+        sendSpam.listUsers.append(message.chat.id)
+    except ValueError:
+        sendSpam.listUsers.append(message.chat.id)
+        f = open('/Users/danilenkodanilasergeevic/test_bot/users.txt', 'a')
+        f.write(str(message.chat.id) + '\n')
+        f.close()
+    print(sendSpam.listUsers)
     bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
     
 number = 0
