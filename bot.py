@@ -44,7 +44,7 @@ def repeat_all_messages(message):
         sendSpam.listUsers.append(message.chat.id)
     except ValueError:
         sendSpam.listUsers.append(message.chat.id)
-        f = open('/Users/danilenkodanilasergeevic/test_bot/users.txt', 'a')
+        f = open('users.txt', 'a')
         f.write(str(message.chat.id) + '\n')
         f.close()
     print(sendSpam.listUsers)
