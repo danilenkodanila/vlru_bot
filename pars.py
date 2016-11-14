@@ -6,7 +6,8 @@ import sys
 #sys.setdefaultencoding('cp866') # устанавливаем кодировку вывода консоли
 from grab import Grab #импортируем граб для работы с парсингом
 
-
+def add(x, y):
+    return x + y
 url = 'http://www.newsvl.ru/rss'
 xpath = '//title'
 xpath1 = '//link'
@@ -50,7 +51,31 @@ for element in page: #цикл считывающий заголовки
 
 print(mainString)
 
+def update():
+	stroka = []
+	i = 0 
+	count = -1
+	mainString = ''
+	s = []
+	count = -2 
+	for element in page1: #цикл считывающий линки
+		count = count + 1
+		if count > 0:
+			s.append(element.html()) # list.append — добавляет элемент в конец списка
 
+	for element in s:
+		s[i] = s[i].replace("<link>","")
+		i = i + 1
+
+	count = -1
+	lol = 0
+	for element in page: #цикл считывающий заголовки
+		count = count + 1
+		if count > 0: #ограничение по канту нужно, чтобы не считать первые ненужные заголовки НЕ НОВОСТЕЙ. С 3 тайтла идут те заголовки, что нам нужны
+			mainString = mainString + (str(count) + ") " +  '<a href="' + s[lol].replace("\n","").replace("\s","").replace("\t","") + '">' + element.html().replace("<title>","").replace("</title>","").replace("  ","").replace("\n","").replace("\s","").replace("\t","")  + '</a>' + '\n') #формирование номера новости
+			lol += 1
+	print(mainString)
+	return s
 
 
 # + element.html().replace("<title>","").replace("</title>","").replace("  ","") 

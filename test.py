@@ -24,13 +24,15 @@ text = []
 
 # print(s)
 def funcText(number):
-    doc = pars.s[number]
-    s = pars.s[number]
-    soup = BeautifulSoup(urlopen(doc))
-    print(doc)
-    for el in soup.find_all('div', attrs={'class': 'story__text'}):
-    	s = s + el.get_text()
-    return s
+	pars.update()
+	print('NUMBER         ', number)
+	doc = pars.s[number]
+	s = pars.s[number]
+	soup = BeautifulSoup(urlopen(doc))
+	print(doc)
+	for el in soup.find_all('div', attrs={'class': 'story__text'}):
+		s = s + el.get_text()
+	return s
 
 # for i in range(1,20):
 # 	doc = pars.s[i]

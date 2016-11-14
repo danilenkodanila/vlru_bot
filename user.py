@@ -1,10 +1,26 @@
 # -*- coding: utf-8 -*-
 
-listUsers = []
+import threading
+import pars
 
-f = open('users.txt')
-for line in f:
-	listUsers.append(line.replace("\n",""))
+i = 0
+
+def printit():
+  s = []
+  threading.Timer(3600, printit).start()
+  s = pars.update()
 
 
-print(listUsers)
+printit()
+
+# listUsers = []
+
+
+
+# f = open('users.txt')
+# for line in f:
+# 	listUsers.append(line.replace("\n",""))
+
+
+
+# print(listUsers)
