@@ -6,6 +6,7 @@ import sys
 #sys.setdefaultencoding('cp866') # устанавливаем кодировку вывода консоли
 from grab import Grab #импортируем граб для работы с парсингом
 
+
 url = 'http://www.newsvl.ru/rss'
 xpath = '//title'
 xpath1 = '//link'
@@ -28,7 +29,7 @@ count = -1
 s = [] #массив ссылок, используем тип данных "список" (list)
 i = 0 
 
-count = -2
+count = -2 
 
 for element in page1: #цикл считывающий линки
 	count = count + 1
