@@ -12,13 +12,13 @@ url = pars.s.pop()
 
 xpath = ('//div[@class="story__text"]')
 
-print(url)
+# print(url)
 
 g = Grab()
 g.go(url)
 
 try:
-     print(g.doc.select(xpath).text())
+     # print(g.doc.select(xpath).text())
 except IndexError:
-     print('not found')
+     # print('not found')
 

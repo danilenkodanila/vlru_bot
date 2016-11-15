@@ -25,11 +25,11 @@ text = []
 # print(s)
 def funcText(number):
 	pars.update()
-	print('NUMBER         ', number)
+	# print('NUMBER         ', number)
 	doc = pars.s[number]
 	s = pars.s[number]
 	soup = BeautifulSoup(urlopen(doc))
-	print(doc)
+	# print(doc)
 	for el in soup.find_all('div', attrs={'class': 'story__text'}):
 		s = s + el.get_text()
 	return s

@@ -49,7 +49,7 @@ for element in page: #цикл считывающий заголовки
 		mainString = mainString + (str(count) + ") " +  '<a href="' + s[lol].replace("\n","").replace("\s","").replace("\t","") + '">' + element.html().replace("<title>","").replace("</title>","").replace("  ","").replace("\n","").replace("\s","").replace("\t","")  + '</a>' + '\n') #формирование номера новости
 		lol += 1
 
-print(mainString)
+# print(mainString)
 
 def update():
 	stroka = []

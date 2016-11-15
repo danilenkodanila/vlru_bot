@@ -67,7 +67,7 @@ def repeat_all_messages(message):
 # tzvl = pytz.timezone('Asia/Vladivostok')
 # now = datetime.now(tzvl)
 
-# if (now.hour == 23) and (now.minute == 4):
+# if (now.hour == 23) and (now.minute == 4):  
 #     def repeat_all_messages(message):
 #         bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
 
@@ -76,10 +76,10 @@ def repeat_all_messages(message):
 def repeat(message): 
     print(message.chat.id)
     try:
-        sendSpam.listUsers.pop(sendSpam.listId.index(message.chat.id))
+        sendSpam.listUsers.pop(sendSpam.listUsers.index(message.chat.id))
         bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
     except ValueError:
-        sendSpam.listUsers.append(message.chat.id)
+        sendSpam.addUser(message.chat.id)
         bot.send_message(message.chat.id, "Вы успешно подписались на рассылку")
 
 
@@ -229,6 +229,7 @@ def everyDay():
     print(cancel)
     lol = str(cancel)
     for element in sendSpam.listUsers: 
+        print('USER ID при отправке ', element)
         bot.send_message(element, lol, disable_web_page_preview = True)
     cancel = []
     return

@@ -21,11 +21,11 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from telebot import types
 from datetime import datetime, date, time
 
-
+spamId = sendSpam.listUsers
 cancel = []
 
 class A:
-    def __call__(self, count=10, sleep_time=0.5):
+    def __call__(self, count=1, sleep_time=0.5):
         bot = telebot.TeleBot(config.token) #создаем бота
         # pars.update()
         answer = pars.mainString #это то, что будем посылать в ответ
@@ -65,7 +65,7 @@ class A:
                 f = open('users.txt', 'a')
                 f.write(str(message.chat.id) + '\n')
                 f.close()
-            print(sendSpam.listUsers)
+            # print(sendSpam.listUsers)
             bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
             
         # number = 0
@@ -77,17 +77,19 @@ class A:
         #     def repeat_all_messages(message):
         #         bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
 
-
+        # 30946531
         @bot.message_handler(commands=['spam'])
         def repeat(message): 
-            print(message.chat.id)
+            # print(message.chat.id)
             try:
-                sendSpam.listId.pop(sendSpam.listId.index(message.chat.id))
+                print('sendSpam.listUser in bo1.py ', sendSpam.listUsers)
+                sendSpam.listUsers.pop(sendSpam.listUsers.index(message.chat.id))
+                sendSpam.deleteUser()
                 bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
             except ValueError:
-                sendSpam.listId.append(message.chat.id)
+                sendSpam.addUser(message.chat.id)
                 bot.send_message(message.chat.id, "Вы успешно подписались на рассылку")
-
+            
 
         markup = types.ReplyKeyboardMarkup()
         markup.row('/news', '/hot')
@@ -187,7 +189,8 @@ class A:
 
 
 class B:
-    def __call__(self, count=10, sleep_time=0.5):
+    def __call__(self, count=1, sleep_time=0.5):
+        spamId = sendSpam.listUsers
         sleep(sleep_time)
         listLink = []
         s = []
@@ -232,15 +235,24 @@ class B:
                 if f < 10:
                     cancel.append(dictionary[i])
                 f += 1
+            print('Конечная строка на отправку в everyHour: ', cancel)
             return
 
         def everyDay():
             bot = telebot.TeleBot(config.token) #создаем бота 
             global cancel
             print("work everyDay")
-            print(cancel)
-            lol = str(cancel)
-            for element in sendSpam.listUsers: 
+            # print(cancel)
+            lol = str(cancel) 
+            print('listUsers уже при отправке непосредственно ', sendSpam.listUsers)
+            print('Конечная строка на отправку в everyDay: ', cancel)
+            global spamId
+            spamId = []
+            f = open('users.txt', 'r')
+            for line in f:
+                spamId.append(line.replace("\n",""))
+            f.close()
+            for element in spamId: 
                 bot.send_message(element, lol, disable_web_page_preview = True)
             cancel = []
             return
@@ -250,8 +262,8 @@ class B:
         # count:  [<a class="story__info-comments-count" data-notation="Количество комментариев" href="#comments">8</a>]
 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=0.01)
-        scheduler.add_job(everyDay, 'interval', hours=0.001)
+        scheduler.add_job(everyHour, 'interval', hours=0.001)
+        scheduler.add_job(everyDay, 'interval', hours=0.01)
         scheduler.start()
 
 
