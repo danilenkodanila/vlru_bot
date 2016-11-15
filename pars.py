@@ -74,7 +74,7 @@ def update():
 		if count > 0: #ограничение по канту нужно, чтобы не считать первые ненужные заголовки НЕ НОВОСТЕЙ. С 3 тайтла идут те заголовки, что нам нужны
 			mainString = mainString + (str(count) + ") " +  '<a href="' + s[lol].replace("\n","").replace("\s","").replace("\t","") + '">' + element.html().replace("<title>","").replace("</title>","").replace("  ","").replace("\n","").replace("\s","").replace("\t","")  + '</a>' + '\n') #формирование номера новости
 			lol += 1
-	print(mainString)
+	# print(mainString)
 	return s
 
 

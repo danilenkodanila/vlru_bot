@@ -7,7 +7,16 @@ import hotNews
 import sendSpam
 import pytz
 #import parsLink
+import schedule
+import time
+from grab import Grab #импортируем граб для работы с парсингом
+import re
+import sys
+from bs4 import BeautifulSoup
+from urllib.request import urlopen
+import pars 
 
+from apscheduler.schedulers.blocking import BlockingScheduler
 from telebot import types
 from datetime import datetime, date, time
 
@@ -53,24 +62,24 @@ def repeat_all_messages(message):
     print(sendSpam.listUsers)
     bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
     
-number = 0
+# number = 0
 
-tzvl = pytz.timezone('Asia/Vladivostok')
-now = datetime.now(tzvl)
+# tzvl = pytz.timezone('Asia/Vladivostok')
+# now = datetime.now(tzvl)
 
-if (now.hour == 23) and (now.minute == 4):
-    def repeat_all_messages(message):
-        bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
+# if (now.hour == 23) and (now.minute == 4):
+#     def repeat_all_messages(message):
+#         bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
 
 
 @bot.message_handler(commands=['spam'])
 def repeat(message): 
     print(message.chat.id)
     try:
-        sendSpam.listId.pop(sendSpam.listId.index(message.chat.id))
+        sendSpam.listUsers.pop(sendSpam.listId.index(message.chat.id))
         bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
     except ValueError:
-        sendSpam.listId.append(message.chat.id)
+        sendSpam.listUsers.append(message.chat.id)
         bot.send_message(message.chat.id, "Вы успешно подписались на рассылку")
 
 
@@ -168,5 +177,72 @@ if setNews == 0:
         bot.send_message(message.chat.id, test.funcText(19), disable_web_page_preview = True) #посылаем в ответ 
 
   
+
+listLink = []
+s = []
+number = [],[]
+dictionary = {}
+cancel = []
+
+def everyHour():
+    print("work everyHour")
+    s = pars.update()
+    link = []
+    for element in s:
+        try:
+            listLink.remove(element)
+        except ValueError:
+            listLink.append(element)
+    for element in listLink:
+        soup = BeautifulSoup(urlopen(element.replace("\n","").replace("\t","").replace("\t","")))
+        number[1].append(element.replace("\n","").replace("\t","").replace("\t",""))
+        try:
+            if soup.find("a", class_="story__info-comments-count") != None: # better: if item is not None
+                data = soup.find("a", class_="story__info-comments-count")
+                for contents in data:
+                    number[0].append(contents)
+            else:        
+                raise TypeError 
+        except TypeError:
+            number[0].append('0')
+    i = 0
+    for element in number[0]:
+        dictionary[int(number[0][i])] = number[1][i]
+        i += 1
+
+    l = dictionary.keys() # получаем ключи
+    l = list(l) # превращаем его в обычный список
+    l.sort() # сортируем список
+    l.reverse()
+    f = 0
+    global cancel
+    cancel = []
+    for i in l: # вывод элементов словаря (ключ - значение) по алфавиту
+        if f < 10:
+            cancel.append(dictionary[i])
+        f += 1
+    return
+
+def everyDay():
+    global cancel
+    print("work everyDay")
+    print(cancel)
+    lol = str(cancel)
+    for element in sendSpam.listUsers: 
+        bot.send_message(element, lol, disable_web_page_preview = True)
+    cancel = []
+    return
+
+
+
+# count:  [<a class="story__info-comments-count" data-notation="Количество комментариев" href="#comments">8</a>]
+
+scheduler = BlockingScheduler()
+scheduler.add_job(everyHour, 'interval', hours=1)
+scheduler.add_job(everyDay, 'interval', hours=5)
+scheduler.start()
+
+
+
 if __name__ == '__main__': #запускам бота
       bot.polling(none_stop=True)
