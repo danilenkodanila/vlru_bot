@@ -22,6 +22,9 @@ from datetime import datetime, date, time
 spamId = []
 spamUsers = []
 cancel = []
+number = [],[]
+dictionary = {}
+listLink = []
 
 class A:
     def __call__(self, count=1, sleep_time=0.5):
@@ -200,12 +203,11 @@ class A:
 
 class B:
     def __call__(self, count=1, sleep_time=0.5):
-        spamId = []
         sleep(sleep_time)
-        listLink = []
         s = []
-        number = [],[]
-        dictionary = {}
+        global number 
+        global dictionary 
+        global listLink
         cancel = []
 
         def everyHour():
@@ -245,26 +247,43 @@ class B:
                 if f < 10:
                     cancel.append(dictionary[i])
                 f += 1
+            count = 1
             # print('Конечная строка на отправку в everyHour: ', cancel)
             return
 
         def everyDay():
             bot = telebot.TeleBot(config.token) #создаем бота 
             global cancel
+            global getSpam
             print("work everyDay")
-            # print(cancel)
-            lol = str(cancel) 
+            # print(cancel) 
             # print('Конечная строка на отправку в everyDay: ', cancel)
             global spamId
             spamId = []
+            goSpam = 'Самые комментируем новости за день: \n'
+            count = 1
+            for element in cancel:
+                doc = element
+                soup = BeautifulSoup(urlopen(doc))
+                for wrapper in soup.find_all("h1", class_="story__title"):
+                    goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
+                    count += 1
+            print('goSpam перед отправкой: ', goSpam)
             f = open('users.txt', 'r')
             for line in f:
                 spamId.append(line.replace("\n",""))
             f.close()
             print('spamId уже при отправке непосредственно ', spamId)
             for element in spamId: 
-                bot.send_message(element, lol, disable_web_page_preview = True)
+                bot.send_message(element, goSpam, parse_mode='HTML', disable_web_page_preview = True)
             cancel = []
+
+            global dictionary
+            global number 
+            global listLink
+            dictionary = {}
+            number = [],[]
+            listLink = []
             return
 
 
@@ -272,8 +291,8 @@ class B:
         # count:  [<a class="story__info-comments-count" data-notation="Количество комментариев" href="#comments">8</a>]
 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=0.001)
-        scheduler.add_job(everyDay, 'interval', hours=0.01)
+        scheduler.add_job(everyHour, 'interval', hours=1)
+        scheduler.add_job(everyDay, 'interval', hours=3)
         scheduler.start()
 
 
