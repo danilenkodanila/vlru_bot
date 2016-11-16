@@ -1,5 +1,3 @@
-from multiprocessing import Process
-from time import sleep
 import config #импортирую файл конфиг из этой же папки
 import pars #импортирую файл парс из этой же папки
 import telebot #с помощью этой библиотеки строится бот
@@ -7,21 +5,22 @@ import test
 import hotNews
 import sendSpam
 import pytz
-#import parsLink
 import schedule
 import time
-from grab import Grab #импортируем граб для работы с парсингом
 import re
 import sys
+
+from grab import Grab #импортируем граб для работы с парсингом
+from time import sleep
+from multiprocessing import Process
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
-import pars 
-
 from apscheduler.schedulers.blocking import BlockingScheduler
 from telebot import types
 from datetime import datetime, date, time
 
-spamId = sendSpam.listUsers
+spamId = []
+spamUsers = []
 cancel = []
 
 class A:
@@ -78,18 +77,29 @@ class A:
         #         bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
 
         # 30946531
+
+# ______________________________________________________________________________________________________________________________
+        # отправляем спам
         @bot.message_handler(commands=['spam'])
         def repeat(message): 
-            # print(message.chat.id)
+            global spamUsers
+            spamUsers = []
+            f = open('users.txt', 'r')
+            for line in f:
+                spamUsers.append(line.replace("\n",""))
+            f.close()
             try:
-                print('sendSpam.listUser in bo1.py ', sendSpam.listUsers)
-                sendSpam.listUsers.pop(sendSpam.listUsers.index(message.chat.id))
-                sendSpam.deleteUser()
+                spamUsers.pop(spamUsers.index(str(message.chat.id)))
                 bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
             except ValueError:
-                sendSpam.addUser(message.chat.id)
+                print('spamUsers в except: ', spamUsers)
+                spamUsers.append(str(message.chat.id))
                 bot.send_message(message.chat.id, "Вы успешно подписались на рассылку")
-            
+            f = open('users.txt', 'w')
+            for element in spamUsers:
+                f.write(str(element) + '\n')
+            f.close()
+# ______________________________________________________________________________________________________________________________
 
         markup = types.ReplyKeyboardMarkup()
         markup.row('/news', '/hot')
@@ -190,7 +200,7 @@ class A:
 
 class B:
     def __call__(self, count=1, sleep_time=0.5):
-        spamId = sendSpam.listUsers
+        spamId = []
         sleep(sleep_time)
         listLink = []
         s = []
@@ -235,7 +245,7 @@ class B:
                 if f < 10:
                     cancel.append(dictionary[i])
                 f += 1
-            print('Конечная строка на отправку в everyHour: ', cancel)
+            # print('Конечная строка на отправку в everyHour: ', cancel)
             return
 
         def everyDay():
@@ -244,14 +254,14 @@ class B:
             print("work everyDay")
             # print(cancel)
             lol = str(cancel) 
-            print('listUsers уже при отправке непосредственно ', sendSpam.listUsers)
-            print('Конечная строка на отправку в everyDay: ', cancel)
+            # print('Конечная строка на отправку в everyDay: ', cancel)
             global spamId
             spamId = []
             f = open('users.txt', 'r')
             for line in f:
                 spamId.append(line.replace("\n",""))
             f.close()
+            print('spamId уже при отправке непосредственно ', spamId)
             for element in spamId: 
                 bot.send_message(element, lol, disable_web_page_preview = True)
             cancel = []
