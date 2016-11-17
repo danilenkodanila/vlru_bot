@@ -238,7 +238,7 @@ class B:
             log.close()
 
             for element in listLink: # для каждой ссылки нужно найти колличество комментариев
-                soup = BeautifulSoup(urlopen(element.replace("\n","").replace("\t","").replace("\t","")))
+                soup = BeautifulSoup(urlopen(element.replace("\n","").replace("\t","").replace("\t","")), "lxml")
                 number[1].append(element.replace("\n","").replace("\t","").replace("\t",""))
                 try:
                     if soup.find("a", class_="story__info-comments-count") != None: # better: if item is not None
@@ -270,7 +270,7 @@ class B:
             count = 1
             for element in cancel: # для каждой ссылки из списка 10 находим ее тайтл и формируем гиперссылку
                 doc = element
-                soup = BeautifulSoup(urlopen(doc))
+                soup = BeautifulSoup(urlopen(doc), "lxml")
                 for wrapper in soup.find_all("h1", class_="story__title"): 
                     goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
                     count += 1

@@ -12,7 +12,7 @@ goSpam = ''
 
 for element in cancel:
 	doc = element
-	soup = BeautifulSoup(urlopen(doc))
+	soup = BeautifulSoup(urlopen(doc), "lxml")
 	for wrapper in soup.find_all("h1", class_="story__title"):
 		goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
 		count += 1
