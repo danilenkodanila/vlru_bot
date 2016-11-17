@@ -2,12 +2,8 @@
 # -*- coding: utf-8 -*-
 import re
 import sys
-#reload(sys)
-#sys.setdefaultencoding('cp866') # устанавливаем кодировку вывода консоли
 from grab import Grab #импортируем граб для работы с парсингом
 
-def add(x, y):
-    return x + y
 url = 'http://www.newsvl.ru/rss'
 xpath = '//title'
 xpath1 = '//link'
@@ -52,6 +48,15 @@ for element in page: #цикл считывающий заголовки
 # print(mainString)
 
 def update():
+	g = Grab()
+	g.go(url)
+	page = g.doc.select(xpath)
+
+	#все переменные с приставкой "1" нужны для считывания линков
+	g1 = Grab()
+	g1.go(url)
+	page1 = g1.doc.select(xpath1)
+
 	stroka = []
 	i = 0 
 	count = -1

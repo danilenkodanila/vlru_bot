@@ -31,9 +31,10 @@ class A:
         bot = telebot.TeleBot(config.token) #создаем бота
         answer = pars.mainString #это то, что будем посылать в ответ
         setNews = 0 #если посылали новости, то 1, если нет, то 0
-
-
-
+# ______________________________________________________________________________________________________________________________
+        # реакция на команду /news
+        # сначала обновляем список новостей ( pars.update() )
+        # потом прикрепляем кнопку с ссылкой на сайт
         @bot.message_handler(commands=['news', 'новости', 'Новости', 'НОВОСТИ']) #реакция на КОМАНДЫ 
         def repeat_all_messages(message): # Название функции не играет никакой роли, в принципе
             pars.update()
@@ -42,16 +43,23 @@ class A:
             keyboard.add(url_button)
             setNews = 1
             bot.send_message(message.chat.id, answer, parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard) #посылаем в ответ 
-
+# ______________________________________________________________________________________________________________________________
+        # реакция на команду /hotnews
+        # сначала обновляем горячие новости ( updateHot() )
+        # потом посылаем в ответ горячие новости
         @bot.message_handler(commands=['hotnews', 'HotNews', 'hot', 'горячиеНовости']) 
         def repeat_all_messages(message): 
             hotNews.updateHot()
             bot.send_message(message.chat.id, hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
-
+# ______________________________________________________________________________________________________________________________
+        # реакция на команду /numberofnews
+        # В ответ посылаем просто строку с объяснением, как работает команда
         @bot.message_handler(commands=['numberofnews'])
         def repeat(message): 
             bot.send_message(message.chat.id, "Чтобы я прислал вам текст новости из списка новостей отправте мне сообщение в таком формате: /1, /14") #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
-
+# ______________________________________________________________________________________________________________________________
+        # реакция на команды /start, /help
+        # В ответ посылаем просто строку приветствие и краткую справку по командам
         @bot.message_handler(commands=['start', 'help']) 
         def repeat_all_messages(message): 
             keyboard = types.InlineKeyboardMarkup()
@@ -59,18 +67,6 @@ class A:
             keyboard.add(url_button)
             # print(sendSpam.listUsers)
             bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
-            
-        # number = 0
-
-        # tzvl = pytz.timezone('Asia/Vladivostok')
-        # now = datetime.now(tzvl)
-
-        # if (now.hour == 23) and (now.minute == 4):
-        #     def repeat_all_messages(message):
-        #         bot.send_message(sendSpam.listId.pop(0), hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
-
-        # 30946531
-
 # ______________________________________________________________________________________________________________________________
         # отправляем спам
         # в файле users.txt лежит список пользователей, которые подписались на рассылку
@@ -201,18 +197,27 @@ class B:
         global number 
         global dictionary 
         cancel = []
-
+# ______________________________________________________________________________________________________________________________
+        # функция работает каждый час — ходит в news.vl.ru/rss и парсит новости
+        # просто добавляет ссылки в listLink — ссылки уникальные
         def everyHour():
             print("work everyHour")
             global listLink
             s = pars.update()
             for element in s:
                 try:
-                    listLink.index(str(element))
+                    listLink.index(str(element)) # если ссылка уже есть в списке, то ничего не делаем
                 except ValueError:
-                    listLink.append(element)
+                    listLink.append(element) # если try кидает ValueError, значит ссылки нет в списке — добавляем ее
             return
-
+# ______________________________________________________________________________________________________________________________
+        # функция работает каждый день (раз в 24 часа)
+        # отправляет рассылку пользователям
+        # сначала пробегаем по всем ссылкам в listLink и добавляем их в number[1]
+        # потом в number[0] добавляем колличество комментариев (0 если их нет)
+        # индекс по х ссылки и ее комментария совпадает
+        # потом сортируем комментарии по возрастанию 
+        # 10 самых комментируемых новостей кидаем пользователям
         def everyDay():
             bot = telebot.TeleBot(config.token) #создаем бота 
             global cancel
@@ -223,9 +228,16 @@ class B:
             dictionary = {}
             link = []
             number = [],[]
+
             print("work everyDay")
             print('everyDay listLink: ', listLink)
+
+            log = open('log.txt', 'w')
             for element in listLink:
+                log.write(str(element) + '\n')
+            log.close()
+
+            for element in listLink: # для каждой ссылки нужно найти колличество комментариев
                 soup = BeautifulSoup(urlopen(element.replace("\n","").replace("\t","").replace("\t","")))
                 number[1].append(element.replace("\n","").replace("\t","").replace("\t",""))
                 try:
@@ -236,56 +248,48 @@ class B:
                     else:        
                         raise TypeError 
                 except TypeError:
-                    number[0].append('0')
+                    number[0].append('0') # если try вернул TypeError, значит блока на странице нет — просто ставим 0 в разделе комментарии
             i = 0
-            for element in number[0]:
+            for element in number[0]: #создаем словарь
                 dictionary[int(number[0][i])] = number[1][i]
                 i += 1
 
             l = dictionary.keys() # получаем ключи
             l = list(l) # превращаем его в обычный список
             l.sort() # сортируем список
-            l.reverse()
-            f = 0
-            cancel = []
+            l.reverse() # разворачиваем, чтобы список шел по возрастанию
+            f = 0 
+            cancel = [] # сбрасываем прошлые 10 самых комментируемых новостей
             for i in l: # вывод элементов словаря (ключ - значение) по алфавиту
                 if f < 10:
                     cancel.append(dictionary[i])
                 f += 1
-            count = 1
-            # print('Конечная строка на отправку в everyHour: ', cancel)
-            # print('Конечная строка на отправку в everyDay: ', cancel)
             global spamId
             spamId = []
             goSpam = 'Самые комментируем новости за день: \n'
             count = 1
-            for element in cancel:
+            for element in cancel: # для каждой ссылки из списка 10 находим ее тайтл и формируем гиперссылку
                 doc = element
                 soup = BeautifulSoup(urlopen(doc))
-                for wrapper in soup.find_all("h1", class_="story__title"):
+                for wrapper in soup.find_all("h1", class_="story__title"): 
                     goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
                     count += 1
-            # print('everyDay goSpam перед отправкой: ', goSpam)
             f = open('users.txt', 'r')
-            for line in f:
-                spamId.append(line.replace("\n",""))
+            for line in f: 
+                spamId.append(line.replace("\n","")) # считываем список пользователей, которые подписались на рассылку
             f.close()
-            # print('everyDay spamId уже при отправке непосредственно ', spamId)
             for element in spamId: 
-                bot.send_message(element, goSpam, parse_mode='HTML', disable_web_page_preview = True)
+                bot.send_message(element, goSpam, parse_mode='HTML', disable_web_page_preview = True) # отправляем рассылку
             cancel = []
-            listLink = []
+            listLink = [] # очищаем лист ссылок, чтобы следующие 24 часа формировался новый лист ссылок
             return
-
-
-
-        # count:  [<a class="story__info-comments-count" data-notation="Количество комментариев" href="#comments">8</a>]
-
+# ______________________________________________________________________________________________________________________________
+        # код внизу запускает функции с различным интервалом 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=0.25)
-        scheduler.add_job(everyDay, 'interval', hours=1)
+        scheduler.add_job(everyHour, 'interval', hours=0.001)
+        scheduler.add_job(everyDay, 'interval', hours=0.01)
         scheduler.start()
-
+# ______________________________________________________________________________________________________________________________
 
 if __name__ == '__main__':
     a = A()
