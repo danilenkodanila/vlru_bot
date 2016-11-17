@@ -265,12 +265,12 @@ class B:
                 for wrapper in soup.find_all("h1", class_="story__title"):
                     goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
                     count += 1
-            print('everyDay goSpam перед отправкой: ', goSpam)
+            # print('everyDay goSpam перед отправкой: ', goSpam)
             f = open('users.txt', 'r')
             for line in f:
                 spamId.append(line.replace("\n",""))
             f.close()
-            print('everyDay spamId уже при отправке непосредственно ', spamId)
+            # print('everyDay spamId уже при отправке непосредственно ', spamId)
             for element in spamId: 
                 bot.send_message(element, goSpam, parse_mode='HTML', disable_web_page_preview = True)
             cancel = []
