@@ -286,8 +286,8 @@ class B:
 # ______________________________________________________________________________________________________________________________
         # код внизу запускает функции с различным интервалом 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=0.001)
-        scheduler.add_job(everyDay, 'interval', hours=0.01)
+        scheduler.add_job(everyHour, 'interval', hours=1)
+        scheduler.add_job(everyDay, 'interval', hours=10)
         scheduler.start()
 # ______________________________________________________________________________________________________________________________
 
