@@ -6,7 +6,6 @@ import test
 import hotNews
 import sendSpam
 import pytz
-#import parsLink
 import schedule
 import time
 from grab import Grab #импортируем граб для работы с парсингом

@@ -29,9 +29,7 @@ listLink = []
 class A:
     def __call__(self, count=1, sleep_time=0.5):
         bot = telebot.TeleBot(config.token) #создаем бота
-        # pars.update()
         answer = pars.mainString #это то, что будем посылать в ответ
-        #lol = pars.stroka[1]
         setNews = 0 #если посылали новости, то 1, если нет, то 0
 
 
@@ -75,6 +73,11 @@ class A:
 
 # ______________________________________________________________________________________________________________________________
         # отправляем спам
+        # в файле users.txt лежит список пользователей, которые подписались на рассылку
+        # сначала считываем файл в spamUsers. Потом пытаемся удалить оттуда id пользователя, который написал.
+        # если получается удалить пользователя, то просто удаляем пользователя из spamUsers
+        # если удаление кидает ValueError, то добавляем пользователя в spamUsers
+        # после удаления/добавления стираем файл users.txt и записываем туда id пользователей из spamUsers
         @bot.message_handler(commands=['spam'])
         def repeat(message): 
             global spamUsers
@@ -95,7 +98,7 @@ class A:
                 f.write(str(element) + '\n')
             f.close()
 # ______________________________________________________________________________________________________________________________
-
+        # добавление клавиатуры
         markup = types.ReplyKeyboardMarkup()
         markup.row('/news', '/hot')
         markup.row('/1', '/2', '/3')
@@ -103,11 +106,10 @@ class A:
         @bot.message_handler(commands=['keyboard'])
         def repeat(message):  
             bot.send_message(message.chat.id, "Клавиатура добавлена", reply_markup=markup)
-
-
-        #обрабатываем команды 
+# ______________________________________________________________________________________________________________________________
+        # обрабатываем команды /1 ... /20
+        # в ответ на каждую команду посылаем номер линка, чтобы в ответ функция в test.py вернула текст новости
         if setNews == 0: 
-             
              @bot.message_handler(commands=['1'])
              def repeat(message): 
                 pars.update()
@@ -191,26 +193,38 @@ class A:
         sleep(sleep_time)
         if __name__ == '__main__': #запускам бота
             bot.polling(none_stop=True)
-
+# ______________________________________________________________________________________________________________________________
 
 class B:
     def __call__(self, count=1, sleep_time=0.5):
         sleep(sleep_time)
-        s = []
         global number 
         global dictionary 
-        global listLink
         cancel = []
 
         def everyHour():
             print("work everyHour")
+            global listLink
             s = pars.update()
-            link = []
             for element in s:
                 try:
-                    listLink.remove(element)
+                    listLink.index(str(element))
                 except ValueError:
                     listLink.append(element)
+            return
+
+        def everyDay():
+            bot = telebot.TeleBot(config.token) #создаем бота 
+            global cancel
+            global getSpam
+            global dictionary
+            global number 
+            global listLink
+            dictionary = {}
+            link = []
+            number = [],[]
+            print("work everyDay")
+            print('everyDay listLink: ', listLink)
             for element in listLink:
                 soup = BeautifulSoup(urlopen(element.replace("\n","").replace("\t","").replace("\t","")))
                 number[1].append(element.replace("\n","").replace("\t","").replace("\t",""))
@@ -233,7 +247,6 @@ class B:
             l.sort() # сортируем список
             l.reverse()
             f = 0
-            global cancel
             cancel = []
             for i in l: # вывод элементов словаря (ключ - значение) по алфавиту
                 if f < 10:
@@ -241,14 +254,6 @@ class B:
                 f += 1
             count = 1
             # print('Конечная строка на отправку в everyHour: ', cancel)
-            return
-
-        def everyDay():
-            bot = telebot.TeleBot(config.token) #создаем бота 
-            global cancel
-            global getSpam
-            print("work everyDay")
-            # print(cancel) 
             # print('Конечная строка на отправку в everyDay: ', cancel)
             global spamId
             spamId = []
@@ -260,21 +265,15 @@ class B:
                 for wrapper in soup.find_all("h1", class_="story__title"):
                     goSpam = goSpam + (str(count) + ") " +  '<a href="' + element + '">' + wrapper.text + '</a>' + '\n')
                     count += 1
-            print('goSpam перед отправкой: ', goSpam)
+            print('everyDay goSpam перед отправкой: ', goSpam)
             f = open('users.txt', 'r')
             for line in f:
                 spamId.append(line.replace("\n",""))
             f.close()
-            print('spamId уже при отправке непосредственно ', spamId)
+            print('everyDay spamId уже при отправке непосредственно ', spamId)
             for element in spamId: 
                 bot.send_message(element, goSpam, parse_mode='HTML', disable_web_page_preview = True)
             cancel = []
-
-            global dictionary
-            global number 
-            global listLink
-            dictionary = {}
-            number = [],[]
             listLink = []
             return
 
