@@ -283,8 +283,8 @@ class B:
         # count:  [<a class="story__info-comments-count" data-notation="Количество комментариев" href="#comments">8</a>]
 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=1)
-        scheduler.add_job(everyDay, 'interval', hours=3)
+        scheduler.add_job(everyHour, 'interval', hours=0.25)
+        scheduler.add_job(everyDay, 'interval', hours=1)
         scheduler.start()
 
 
