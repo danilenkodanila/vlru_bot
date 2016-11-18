@@ -38,6 +38,7 @@ class A:
         @bot.message_handler(commands=['news', 'новости', 'Новости', 'НОВОСТИ']) #реакция на КОМАНДЫ 
         def repeat_all_messages(message): # Название функции не играет никакой роли, в принципе
             pars.update()
+            answer = pars.mainString
             keyboard = types.InlineKeyboardMarkup()
             url_button = types.InlineKeyboardButton(text="Перейти на newsvl.ru", url="http://www.newsvl.ru/")
             keyboard.add(url_button)
