@@ -9,6 +9,7 @@ import schedule
 import time
 import re
 import sys
+import lastNews
 
 from grab import Grab #импортируем граб для работы с парсингом
 from time import sleep
@@ -53,6 +54,12 @@ class A:
             hotNews.updateHot()
             bot.send_message(message.chat.id, hotNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
 # ______________________________________________________________________________________________________________________________
+        # реакция на команду /lastNews
+        @bot.message_handler(commands=['lastNews', 'LastNews', 'last', 'последниеНовости']) 
+        def repeat_all_messages(message): 
+            lastNews.last()
+            bot.send_message(message.chat.id, lastNews.finish[0], parse_mode='HTML', disable_web_page_preview = True)
+# ______________________________________________________________________________________________________________________________
         # реакция на команду /numberofnews
         # В ответ посылаем просто строку с объяснением, как работает команда
         @bot.message_handler(commands=['numberofnews'])
@@ -69,7 +76,7 @@ class A:
             f = open('allUsers.txt', 'a')
             f.write(str(message.chat.id) + '\n')
             f.close()
-            bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
+            bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \nЯ умею отправлять список новостей по команде /news \nПо команде /hot я отправляю 3 самые горячие новости. \nПо команде /last я отправлю список 6 последних новостей \nТак же я умею отправлять текст новости из списка /news по команде /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
 # ______________________________________________________________________________________________________________________________
         # реакция на команду /help
         # В ответ посылаем просто строку приветствие и краткую справку по командам
@@ -78,7 +85,7 @@ class A:
             keyboard = types.InlineKeyboardMarkup()
             url_button = types.InlineKeyboardButton(text="Перейти на newsvl.ru", url="http://www.newsvl.ru/")
             keyboard.add(url_button)
-            bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
+            bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \nЯ умею отправлять список новостей по команде /news \nПо команде /hot я отправляю 3 самые горячие новости. \nПо команде /last я отправлю список 6 последних новостей \nТак же я умею отправлять текст новости из списка /news по команде /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
 # ______________________________________________________________________________________________________________________________# ______________________________________________________________________________________________________________________________
         # отправляем спам
         # в файле users.txt лежит список пользователей, которые подписались на рассылку
@@ -108,7 +115,7 @@ class A:
 # ______________________________________________________________________________________________________________________________
         # добавление клавиатуры
         markup = types.ReplyKeyboardMarkup()
-        markup.row('/news', '/hot')
+        markup.row('/news', '/hot', '/last')
         markup.row('/1', '/2', '/3')
 
         @bot.message_handler(commands=['keyboard'])
@@ -299,7 +306,7 @@ class B:
         # код внизу запускает функции с различным интервалом 
         scheduler = BlockingScheduler()
         scheduler.add_job(everyHour, 'interval', hours=1)
-        scheduler.add_job(everyDay, 'interval', hours=4)
+        scheduler.add_job(everyDay, 'interval', hours=24)
         scheduler.start()
 # ______________________________________________________________________________________________________________________________
 

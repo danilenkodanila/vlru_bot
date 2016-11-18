@@ -22,6 +22,6 @@ def updateHot():
 	        link.append("http://www.newsvl.ru" + a['href']) # считываем ссылки горячих новостей
 	        title.append(a['title']) # считываем заголовки горячих новостей
 
-	finish.append('1) ' + '<a href="' + link[0] + '">' + title[0]+ '</a>' + '\n'+ '2) ' + '<a href="' + link[1] + '">' +title[1]  + '</a>' + '\n' + '3) ' + '<a href="' + link[2] + '">' + title[2] + '</a>') 
+	finish.append('Горячие новости: \n1) ' + '<a href="' + link[0] + '">' + title[0]+ '</a>' + '\n'+ '2) ' + '<a href="' + link[1] + '">' +title[1]  + '</a>' + '\n' + '3) ' + '<a href="' + link[2] + '">' + title[2] + '</a>') 
 	return(1)
 
