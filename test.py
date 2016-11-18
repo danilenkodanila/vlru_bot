@@ -33,6 +33,6 @@ def funcText(number):
 		s = s2
 		s2 = s3
 
-	print("s", s)
-	print("s2", s2)
+	# print("s", s)
+	# print("s2", s2)
 	return s
