@@ -105,7 +105,7 @@ class A:
                 spamUsers.pop(spamUsers.index(str(message.chat.id)))
                 bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
             except ValueError:
-                print('spamUsers в except: ', spamUsers)
+                # print('spamUsers в except: ', spamUsers)
                 spamUsers.append(str(message.chat.id))
                 bot.send_message(message.chat.id, "Вы успешно подписались на рассылку, я буду присылать ее вам в 23:00 каждый день")
             f = open('users.txt', 'w')
