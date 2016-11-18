@@ -58,16 +58,27 @@ class A:
         def repeat(message): 
             bot.send_message(message.chat.id, "Чтобы я прислал вам текст новости из списка новостей отправте мне сообщение в таком формате: /1, /14") #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
 # ______________________________________________________________________________________________________________________________
-        # реакция на команды /start, /help
+        # реакция на команду /start
         # В ответ посылаем просто строку приветствие и краткую справку по командам
-        @bot.message_handler(commands=['start', 'help']) 
+        @bot.message_handler(commands=['start']) 
         def repeat_all_messages(message): 
             keyboard = types.InlineKeyboardMarkup()
             url_button = types.InlineKeyboardButton(text="Перейти на newsvl.ru", url="http://www.newsvl.ru/")
             keyboard.add(url_button)
-            # print(sendSpam.listUsers)
+            f = open('allUsers.txt', 'a')
+            f.write(str(message.chat.id) + '\n')
+            f.close()
             bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
 # ______________________________________________________________________________________________________________________________
+        # реакция на команду /help
+        # В ответ посылаем просто строку приветствие и краткую справку по командам
+        @bot.message_handler(commands=['help']) 
+        def repeat_all_messages(message): 
+            keyboard = types.InlineKeyboardMarkup()
+            url_button = types.InlineKeyboardButton(text="Перейти на newsvl.ru", url="http://www.newsvl.ru/")
+            keyboard.add(url_button)
+            bot.send_message(message.chat.id, "Привет, я неофициальный бот сайта newsvl.ru. \n Я умею отправлять список новостей по команде /news, по команде /hot я отправляю 3 самые горячие новости. \n Так же я умею отправлять текст новости из списка /news по команда /1 .. /20", parse_mode='HTML', disable_web_page_preview = True, reply_markup=keyboard)
+# ______________________________________________________________________________________________________________________________# ______________________________________________________________________________________________________________________________
         # отправляем спам
         # в файле users.txt лежит список пользователей, которые подписались на рассылку
         # сначала считываем файл в spamUsers. Потом пытаемся удалить оттуда id пользователя, который написал.
@@ -286,8 +297,8 @@ class B:
 # ______________________________________________________________________________________________________________________________
         # код внизу запускает функции с различным интервалом 
         scheduler = BlockingScheduler()
-        scheduler.add_job(everyHour, 'interval', hours=0.001)
-        scheduler.add_job(everyDay, 'interval', hours=0.005)
+        scheduler.add_job(everyHour, 'interval', hours=1)
+        scheduler.add_job(everyDay, 'interval', hours=2.5)
         scheduler.start()
 # ______________________________________________________________________________________________________________________________
 
