@@ -103,7 +103,7 @@ class A:
             f.close()
             try:
                 spamUsers.pop(spamUsers.index(str(message.chat.id)))
-                bot.send_message(message.chat.id, "Вы успешно отписались от рассылки, я буду присылать ее вам в 22:00 каждый день")
+                bot.send_message(message.chat.id, "Вы успешно отписались от рассылки, я буду присылать ее вам в 23:00 каждый день")
             except ValueError:
                 print('spamUsers в except: ', spamUsers)
                 spamUsers.append(str(message.chat.id))
