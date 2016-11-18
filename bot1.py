@@ -64,7 +64,7 @@ class A:
         # В ответ посылаем просто строку с объяснением, как работает команда
         @bot.message_handler(commands=['numberofnews'])
         def repeat(message): 
-            bot.send_message(message.chat.id, "Чтобы я прислал вам текст новости из списка новостей отправте мне сообщение в таком формате: /1, /14") #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
+            bot.send_message(message.chat.id, "Чтобы я прислал вам текст новости из списка новостей отправьте мне сообщение в таком формате: /1, /14") #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
 # ______________________________________________________________________________________________________________________________
         # реакция на команду /start
         # В ответ посылаем просто строку приветствие и краткую справку по командам
@@ -103,7 +103,7 @@ class A:
             f.close()
             try:
                 spamUsers.pop(spamUsers.index(str(message.chat.id)))
-                bot.send_message(message.chat.id, "Вы успешно отписались от рассылки")
+                bot.send_message(message.chat.id, "Вы успешно отписались от рассылки, я буду присылать ее вам в 22:00 каждый день")
             except ValueError:
                 print('spamUsers в except: ', spamUsers)
                 spamUsers.append(str(message.chat.id))
@@ -128,83 +128,183 @@ class A:
              @bot.message_handler(commands=['1'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(0), disable_web_page_preview = True) #посылаем в ответ ссылку 2 из массива ссылок в файле парс. 
+                test.funcText(0)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ @bot.message_handler(commands=['2'])
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['2'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(1), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(1)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ  
              @bot.message_handler(commands=['3'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(2), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(2)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ 
              @bot.message_handler(commands=['4'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(3), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(3)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ 
              @bot.message_handler(commands=['5'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(4), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(4)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ  
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['6'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(5), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(5)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['7'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(6), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(6)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['8'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(7), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(7)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ  
              @bot.message_handler(commands=['9'])
              def repeat(message):
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(8), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(8)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['10'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(9), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(9)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['11'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(10), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(10)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ  
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['12'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(11), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(11)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ 
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ 
              @bot.message_handler(commands=['13'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(12), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(12)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['14'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(13), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(13)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['15'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(14), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(14)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['16'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(15), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(15)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['17'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(16), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(16)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['18'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(17), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(17)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ 
              @bot.message_handler(commands=['19'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(18), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(18)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
              @bot.message_handler(commands=['20'])
              def repeat(message): 
                 pars.update()
-                bot.send_message(message.chat.id, test.funcText(19), disable_web_page_preview = True) #посылаем в ответ 
+                test.funcText(19)
+                if test.s2 != '':
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
+                     bot.send_message(message.chat.id, text = test.s2, disable_web_page_preview = True) #посылаем в ответ
+                else:
+                     bot.send_message(message.chat.id, text = test.s, disable_web_page_preview = True) #посылаем в ответ
         sleep(sleep_time)
         if __name__ == '__main__': #запускам бота
             bot.polling(none_stop=True)
