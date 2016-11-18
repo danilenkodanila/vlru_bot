@@ -11,7 +11,6 @@ s = []
 def update():
 	global mainString
 	global s
-
 	url = 'http://www.newsvl.ru/rss'
 	xpath = '//title'
 	xpath1 = '//link'
